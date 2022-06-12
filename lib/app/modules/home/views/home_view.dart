@@ -6,8 +6,8 @@ import 'package:hello/app/modules/home/views/widget/product_tile.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
- // HomeController Controller = HomeController();
-  
+  // HomeController Controller = HomeController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,17 +15,21 @@ class HomeView extends GetView<HomeController> {
           title: Text('Shop'),
           centerTitle: true,
         ),
-        body: Column(
+        body: GetBuilder<HomeController>(
+          init: HomeController(),
+          initState: (_) {},
+          builder: (_) {
+            return Column(
           children: [
             Expanded(
               child: GetBuilder<HomeController>(builder: (context) {
-                controller.getProducts();
-                if (controller.isLoading == true) {
+                _.getProducts();
+                if (_.isLoading == true) {
                   return Center(
                     child: CircularProgressIndicator());
                 } else {
                   return GridView.builder(
-                     itemCount: controller.product.length,
+                     itemCount: _.products.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         
                         crossAxisCount: 2,
@@ -33,12 +37,14 @@ class HomeView extends GetView<HomeController> {
                         mainAxisSpacing: 5.0,
                       ),
                       itemBuilder: (context, index) {
-                        return ProductTile(controller.product[index]);
+                        return ProductTile(_.products[index]);
                       });
                 }
               }),
             )
           ],
+        );
+          },
         ));
   }
 }

@@ -5,7 +5,7 @@ import 'package:hello/app/data/repository/product_repository.dart';
 class HomeController extends GetxController {
   final _repo = Get.find<ProductRepository>();
   bool isLoading = true;
-  late List<Product> product;
+  final products = <Product>[].obs;
 
   final count = 0.obs;
   @override
@@ -24,10 +24,11 @@ class HomeController extends GetxController {
 
   Future<List<Product>> getProducts() async {
     try {
-      product = await _repo.getProducts();
+      final response = await _repo.getProducts();
+      products.assignAll(response);
       isLoading = false;
       update();
-      return product;
+      return products;
     } catch (e) {
       throw e;
     }
