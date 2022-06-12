@@ -18,7 +18,8 @@ class HomeView extends GetView<HomeController> {
         body: Column(
           children: [
             Expanded(
-              child: GetBuilder<HomeController>(builder: (context) {
+              child: GetBuilder<HomeController>(
+                builder: (context) {
                 controller.getProducts();
                 if (controller.isLoading == true) {
                   return Center(
